@@ -19,10 +19,10 @@ int main() {
     insertion_sort(arr, SIZE);
 
     // Print "arr".
-    for (int i = 0; i < SIZE; i++) {
-        printf("%d", *(arr + i));
+    for (int i = 0; i < SIZE - 1; i++) {
+        printf("%d,", *(arr + i));
     }
-    printf("\n");
+    printf("%d\n", *(arr + SIZE - 1));
     return 0;
 }
 

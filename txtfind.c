@@ -22,7 +22,6 @@ int main() {
 
     // What option did user chose? A or B.
     char choice;
-    getchar();
     choice = getchar();
     getchar();
     getchar();
