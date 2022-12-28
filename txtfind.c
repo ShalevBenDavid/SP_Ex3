@@ -50,7 +50,7 @@ int main() {
 void A() {
     for (int i = 0; i < TEXT; i++) {
         if (substring(text[i],word) == 1) {
-            printf("%s", text[i]);
+            printf("%s\n", text[i]);
         }
     }
 }
@@ -73,15 +73,7 @@ int getWord() {
 
 // A method that gets a line from the standard input and saves at "s" array.
 int getLine(int row) {
-    /*int length = 0;
-    char save = (char) getchar();
-    while ((save != '\n') && (save != '\r') && (save != EOF) && (length < LINE - 1)) {
-        text[row][length++] = save;
-        save = (char) getchar();
-    }
-    text[row][length] = '\0';
-    return length;*/
-    fgets(text[row], LINE, stdin);
+    gets(text[row]);
     return (int) strlen(text[row]);
 }
 
