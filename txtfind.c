@@ -27,9 +27,7 @@ int main() {
 
     // Save text in "text" 2D array.
     for (int i = 0; i < TEXT; i++) {
-        if (getLine(i) == 0) {
-            break;
-        }
+        getLine(i);
     }
 
     switch (choice) {
