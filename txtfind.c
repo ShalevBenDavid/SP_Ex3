@@ -6,11 +6,11 @@
 #define LINE 256
 #define TEXT 250
 
-char word[WORD];
-char text[TEXT][LINE];
+char word[WORD] = {0};
+char text[TEXT][LINE] = {0};
 
 int getWord();
-int getLine(char[]);
+int getLine(int);
 int substring(char[], char[]);
 void print_similar_words();
 void A();
@@ -21,32 +21,36 @@ int main() {
     getWord();
 
     // What option did user chose? A or B.
-    char choice;
-    choice = getchar();
+    char choice = (char) getchar();
     getchar();
     getchar();
 
     // Save text in "text" 2D array.
     for (int i = 0; i < TEXT; i++) {
-        if (getLine(text[i]) == 0) {
+        if (getLine(i) == 0) {
             break;
         }
     }
 
     switch (choice) {
-        case 'A': A();
-        case 'B': B();
-        default: printf("invalid choice. You need to choose between A or B");
+        case 'a':
+            A();
+            break;
+        case 'b':
+            B();
+            break;
+        default:
+            printf("invalid choice. You need to choose between A or B");
+            break;
     }
-    printf("\n");
     return 0;
 }
 
 // A method that prints all lines in "text" containing "word".
 void A() {
     for (int i = 0; i < TEXT; i++) {
-        if (substring(word,text[i]) == 1) {
-            printf("%s\n", text[i]);
+        if (substring(text[i],word) == 1) {
+            printf("%s", text[i]);
         }
     }
 }
@@ -58,25 +62,27 @@ void B(){
 // A method that gets a word from the standard input and saves at "w" array.
 int getWord() {
     int length = 0;
-    char save;
-    while (((save = getchar()) != '\n') && (save != '\t') &&  (save != ' ') && (save != '\r') && (save != EOF)) {
-        word[length] = save;
-        length++;
+    char save = (char) getchar();
+    while ((save != '\n') && (save != '\t') &&  (save != ' ') && (save != '\r') && (save != EOF)) {
+        word[length++] = save;
+        save = (char) getchar();
     }
     word[length] = '\0';
     return length;
 }
 
 // A method that gets a line from the standard input and saves at "s" array.
-int getLine(char s[]) {
-    int length = 0;
-    char save;
-    while (((save = getchar()) != '\n') && (save != '\r') && (save != EOF )) {
-        s[length] = save;
-        length++;
+int getLine(int row) {
+    /*int length = 0;
+    char save = (char) getchar();
+    while ((save != '\n') && (save != '\r') && (save != EOF) && (length < LINE - 1)) {
+        text[row][length++] = save;
+        save = (char) getchar();
     }
-    s[length] = '\0';
-    return length;
+    text[row][length] = '\0';
+    return length;*/
+    fgets(text[row], LINE, stdin);
+    return (int) strlen(text[row]);
 }
 
 int substring( char str1[], char str2[]) {
@@ -87,6 +93,10 @@ int substring( char str1[], char str2[]) {
 }
 
 int similar (char s[], char t[], int n) {
+    // If the words are identical then return 1.
+    if (strcmp(s, t) == 0) {
+        return 1;
+    }
     // If lenS - n != lenT, there's no way for similarity.
     if(strlen(s) - n != strlen(t)) {
         return 0;
@@ -107,12 +117,12 @@ int similar (char s[], char t[], int n) {
 }
 
 void print_similar_words() {
-    char currentWord[WORD] = {'\0'};
+    char currentWord[WORD] = {0};
     for (int i = 0; i < TEXT; i++) {
         for (int j = 0; j < strlen(text[i]); j++) {
             int k = 0;
-            while (text[i][j] != ' ') {
-                currentWord[k++] = text[i][j];
+            while ((j < LINE - 1) && (text[i][j] != ' ') && ((text[i][j] != '\n'))) {
+                currentWord[k++] = text[i][j++];
             }
             currentWord[k] = '\0';
             if(similar(currentWord, word, 1) == 1) {
