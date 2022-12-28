@@ -74,7 +74,7 @@ int getWord() {
 int getLine(int row) {
     int length = 0;
     int c;
-    while (((c = getchar()) != '\n') && (c != '\r') && (c != EOF) && (length < LINE - 1)) {
+    while (((c = getchar()) != '\n') && (c != EOF) && (length < LINE - 1)) {
         text[row][length++] = (char) c;
     }
         text[row][length] = '\0';
