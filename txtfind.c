@@ -6,8 +6,8 @@
 #define LINE 256
 #define TEXT 250
 
-char word[WORD] = {0};
-char text[TEXT][LINE] = {0};
+char word[WORD] = {'\0'};
+char text[TEXT][LINE] = {'\0'};
 
 int getWord();
 int getLine(int);
@@ -62,10 +62,9 @@ void B(){
 // A method that gets a word from the standard input and saves at "w" array.
 int getWord() {
     int length = 0;
-    char save = (char) getchar();
-    while ((save != '\n') && (save != '\t') &&  (save != ' ') && (save != '\r') && (save != EOF)) {
-        word[length++] = save;
-        save = (char) getchar();
+    int c;
+    while (((c = getchar()) != '\n') && (c != '\t') && (c != '\r') && (c != ' ') && (c != EOF)) {
+        word[length++] = (char) c;
     }
     word[length] = '\0';
     return length;
@@ -73,8 +72,13 @@ int getWord() {
 
 // A method that gets a line from the standard input and saves at "s" array.
 int getLine(int row) {
-    gets(text[row]);
-    return (int) strlen(text[row]);
+    int length = 0;
+    int c;
+    while (((c = getchar()) != '\n') && (c != '\r') && (c != EOF) && (length < LINE - 1)) {
+        text[row][length++] = (char) c;
+    }
+        text[row][length] = '\0';
+    return length;
 }
 
 int substring( char str1[], char str2[]) {
@@ -113,7 +117,7 @@ void print_similar_words() {
     for (int i = 0; i < TEXT; i++) {
         for (int j = 0; j < strlen(text[i]); j++) {
             int k = 0;
-            while ((j < LINE - 1) && (text[i][j] != ' ') && ((text[i][j] != '\n'))) {
+            while ((text[i][j] != '\0') && (text[i][j] != ' ')) {
                 currentWord[k++] = text[i][j++];
             }
             currentWord[k] = '\0';
